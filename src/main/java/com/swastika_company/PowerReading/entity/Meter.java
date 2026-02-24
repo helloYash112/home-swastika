@@ -1,4 +1,5 @@
 package com.swastika_company.PowerReading.entity;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -7,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -19,11 +22,8 @@ public class Meter {
     @Column(name="meter_id")
     private Long meterId;
 
-    @Override
-	public String toString() {
-		return "Meter [meterId=" + meterId + ", machineId=" + machineId + ", meterName=" + meterName + ", meterNumber="
-				+ meterNumber ;
-	}
+   
+	
 	@Column(name="machine_id")
     private String machineId;
 
@@ -34,8 +34,18 @@ public class Meter {
     private String meterNumber;
     
     @OneToMany(mappedBy="meter", cascade = CascadeType.ALL)
-    private List<MeterReading> meterReadings;
-    public List<MeterReading> getMeterReading() {
+    private List<MeterReading> meterReadings=new ArrayList<>();
+    
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
+    public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public List<MeterReading> getMeterReading() {
 		return meterReadings;
 	}
 	public void setMeterReading(List<MeterReading> meterReading) {
@@ -64,6 +74,11 @@ public class Meter {
 	}
 	public void setMeterName(String meterName) {
 		this.meterName = meterName;
+	}
+	 @Override
+	public String toString() {
+		return "Meter [meterId=" + meterId + ", machineId=" + machineId + ", meterName=" + meterName + ", meterNumber="
+				+ meterNumber ;
 	}
 
 }

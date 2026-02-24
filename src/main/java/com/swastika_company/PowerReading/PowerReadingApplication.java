@@ -1,11 +1,22 @@
 package com.swastika_company.PowerReading;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import com.swastika_company.PowerReading.service.MeterReadingSer;
+import com.swastika_company.PowerReading.dto.UserAndMeter;
+import com.swastika_company.PowerReading.entity.Meter;
+import com.swastika_company.PowerReading.entity.MeterReading;
+import com.swastika_company.PowerReading.entity.User;
+import com.swastika_company.PowerReading.repository.UserRepo;
+
 
 @SpringBootApplication
 public class PowerReadingApplication {
@@ -17,11 +28,12 @@ public class PowerReadingApplication {
 	}
 	
 	@Bean
-    public CommandLineRunner run(MeterReadingSer service) {
-        return args -> {
-            System.out.println("Fetching readings...");
-            service.getAllMeterReading().forEach(r -> System.out.println(r.toString()));
-        };
+    public CommandLineRunner run(UserRepo service) {
+		return args -> {
+			Optional<User> user=service.findByUserName("yash wardhan");
+			System.out.println(user);
+		  
+		};
     }
 
 }

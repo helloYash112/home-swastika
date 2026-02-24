@@ -2,7 +2,8 @@ package com.swastika_company.PowerReading.entity;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import jakarta.persistence.CascadeType;
+
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,10 +11,18 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name="reading")
+
+@NamedQuery(name="MeterReading.fetchAllMeterAndReading",
+query="""
+		SELECT new com.swastika_company.PowerReading.dto.MeterAndReading(r.date,r.time,r.kwh,r.pf,m.machineId,m.meterName) from MeterReading r inner join r.meter m 
+		"""
+)
+
 public class MeterReading {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
