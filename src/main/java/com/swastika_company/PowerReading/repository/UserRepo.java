@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.swastika_company.PowerReading.dto.UserAndMeter;
+import com.swastika_company.PowerReading.entity.Meter;
 import com.swastika_company.PowerReading.entity.User;
 
 public interface UserRepo extends JpaRepository<User, Long> {
@@ -21,7 +22,12 @@ public interface UserRepo extends JpaRepository<User, Long> {
 	
 	@Query("""
 		    SELECT new com.swastika_company.PowerReading.dto.User(u.userName, u.userPassword) 
-		    FROM User u
+		    FROM User u where u.userName =:userName
 		""")
-		List<com.swastika_company.PowerReading.dto.User> findUserNamePassword();
+		Optional<com.swastika_company.PowerReading.dto.User> findUserNamePassword(@Param("userName") String userName);
+	
+	@Query(""" 
+			
+			SELECT m FROM User u JOIN u.meter m WHERE m.meterName = :meterName """)
+	    Meter findMeterByName(@Param("meterName") String meterName);
 }

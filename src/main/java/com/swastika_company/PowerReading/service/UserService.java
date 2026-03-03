@@ -7,8 +7,11 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.swastika_company.PowerReading.dto.MeterAndReading;
 import com.swastika_company.PowerReading.dto.MeterDTO;
 import com.swastika_company.PowerReading.dto.UserAndMeter;
+import com.swastika_company.PowerReading.entity.Meter;
+import com.swastika_company.PowerReading.entity.MeterReading;
 import com.swastika_company.PowerReading.entity.User;
 import com.swastika_company.PowerReading.repository.UserRepo;
 
@@ -51,4 +54,35 @@ public class UserService {
 	        return new UserAndMeter(userName, List.of());
 	    }
 	}
+	
+	public com.swastika_company.PowerReading.dto.User getUserByName(String name){
+		Optional<com.swastika_company.PowerReading.dto.User> user=repo.findUserNamePassword(name);
+		if(user.isPresent()) {
+			return user.get();
+		}
+		else 
+			return null;
+	}
+	
+	public List<MeterAndReading> getMeterByName(String meterName) {
+	    Meter m = repo.findMeterByName(meterName);
+	    List<MeterReading> readings = m.getMeterReading();
+
+	    List<MeterAndReading> currentReading = new ArrayList<>();
+	    for (MeterReading read : readings) {
+	        currentReading.add(
+	            new MeterAndReading(
+	                read.getDate(),
+	                read.getTime(),
+	                read.getKwh(),
+	                read.getPf(),
+	                m.getMacId(),
+	                m.getMeterName()
+	            )
+	        );
+	    }
+
+	    return currentReading; // return empty list if no readings
+	}
+
 }
