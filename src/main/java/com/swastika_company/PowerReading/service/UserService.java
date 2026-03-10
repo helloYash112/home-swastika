@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.swastika_company.PowerReading.dto.MeterAndReading;
 import com.swastika_company.PowerReading.dto.MeterDTO;
 import com.swastika_company.PowerReading.dto.UserAndMeter;
+import com.swastika_company.PowerReading.dto.UserDTO;
 import com.swastika_company.PowerReading.entity.Meter;
 import com.swastika_company.PowerReading.entity.MeterReading;
 import com.swastika_company.PowerReading.entity.User;
@@ -24,8 +26,8 @@ public class UserService {
 		this.repo = repo;
 	}
 	
-	public void saveUser(User user) {
-		repo.save(user);
+	public User saveUser(User user) {
+		return repo.save(user);
 		
 	}
 	
@@ -83,6 +85,13 @@ public class UserService {
 	    }
 
 	    return currentReading; // return empty list if no readings
+	}
+	//public User findByUserId(@Param("id")Long id);
+	public UserDTO getUserById(Long id) {
+		return repo.findByUserId(id);
+	}
+	public List<UserDTO> getListOfUsers(){
+		return repo.getAllUser();
 	}
 
 }

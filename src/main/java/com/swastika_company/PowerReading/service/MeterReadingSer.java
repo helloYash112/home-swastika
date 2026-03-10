@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.swastika_company.PowerReading.repository.MeterReadingRepo;
 import com.swastika_company.PowerReading.dto.MeterAndReading;
+import com.swastika_company.PowerReading.dto.UserMeterReading;
 import com.swastika_company.PowerReading.entity.MeterReading;
 
 
@@ -30,6 +31,10 @@ public class MeterReadingSer {
 	public List<MeterAndReading> fetchAllMeterAndReading(){
 		return repo.fetchAllMeterAndReading();
 		}
+	
+	public List<UserMeterReading> getReadingByUserId(Long id){
+		return repo.getAllReadingByID(id);
+	}
 	
 
 }
