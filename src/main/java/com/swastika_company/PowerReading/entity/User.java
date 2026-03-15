@@ -65,6 +65,12 @@ public class User {
 		//System.out.println(meter);
 		return "User [id=" + id + ", userName=" + userName + ", userPassword=" + userPassword + "]";
 	}
+
+
+	public Long getId() {
+		// TODO Auto-generated method stub
+		return id;
+	}
 	
 
 }
