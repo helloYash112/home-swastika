@@ -26,39 +26,6 @@ public class PowerReadingApplication {
 		
 	}
 	
-	@Bean
-    public CommandLineRunner run(UserRepo service) {
-		return args -> {
-			//creating user
-			User user=new User();
-			user.setUserName("yash wardhan");
-			user.setuserPassword("7889456123");
-			//creating meter
-			Meter m=new Meter();
-			m.setMacId("456-789-123");
-			m.setMeterName("swastika home");
-			m.setMeterNo("789-852-741");
-			//creating reading
-			MeterReading reading=new MeterReading();
-			reading.setDate(LocalDate.now());
-			reading.setTime(LocalTime.now());
-			reading.setKwh(1005);
-			reading.setPf(1);
-			reading.setMeter(m);
-			//adding to each other
-			List<Meter> meters=new ArrayList<>();
-			List<MeterReading> readings=new ArrayList<>();
-			readings.add(reading);
-			
-			meters.add(m);
-			user.setMeter(meters);
-			m.setMeterReading(readings);
-			m.setUser(user);
-			m.setMeterReading(readings);
-			service.save(user);
-			System.out.println("created sucessfully...");
-			
-		};
-    }
+	
 
 }
