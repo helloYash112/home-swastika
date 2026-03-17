@@ -12,12 +12,17 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name="meter")
+@Table(name="meter",uniqueConstraints=@UniqueConstraint(columnNames="meter_number"))
 public class Meter {
     
-    @Id
+    private static final boolean notnull = false;
+
+
+
+	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="meter_id")
     private Long meterId;
@@ -30,7 +35,7 @@ public class Meter {
     @Column(name="meter_name")
     private String meterName;
 
-    @Column(name="meter_number")
+    @Column(name="meter_number",unique=true,nullable=notnull)
     private String meterNumber;
     
     @OneToMany(mappedBy="meter", cascade = CascadeType.ALL)

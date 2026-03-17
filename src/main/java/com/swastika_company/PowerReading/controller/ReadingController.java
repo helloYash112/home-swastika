@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.swastika_company.PowerReading.dto.MeterAndReading;
+import com.swastika_company.PowerReading.dto.ReadingDTO;
 import com.swastika_company.PowerReading.dto.UserMeterReading;
 import com.swastika_company.PowerReading.service.MeterReadingSer;
 @RestController
-@RequestMapping("/reading")
+@RequestMapping("/api/reading")
 public class ReadingController {
 	private MeterReadingSer service;
 
@@ -19,10 +21,23 @@ public class ReadingController {
 		this.service = service;
 	}
 	
-	@GetMapping("/{id}")
-	public List<UserMeterReading> getBuUserId(@PathVariable("id") Long id){
+	@GetMapping("/user/{id}")
+	public List<UserMeterReading> getByUserId(@PathVariable("id") Long id){
 		return service.getReadingByUserId(id);
 		
+	}
+	@GetMapping("/meter/{id}")
+	public List<ReadingDTO> getReadingsById(@PathVariable long id){
+		return service.getById(id);
+	}
+	
+	@GetMapping("/{id}")
+	public ReadingDTO getById(@PathVariable Long id) {
+		return service.getReadingById(id);
+	}
+	@GetMapping
+	public List<MeterAndReading> getAllReading(){
+		return service.fetchAllMeterAndReading();
 	}
 	
 	

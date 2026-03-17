@@ -2,38 +2,67 @@ package com.swastika_company.PowerReading.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.swastika_company.PowerReading.repository.MeterReadingRepo;
+import com.swastika_company.PowerReading.repository.MeterRepo;
+
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+
 import com.swastika_company.PowerReading.dto.MeterAndReading;
+import com.swastika_company.PowerReading.dto.ReadingDTO;
 import com.swastika_company.PowerReading.dto.UserMeterReading;
+import com.swastika_company.PowerReading.entity.Meter;
 import com.swastika_company.PowerReading.entity.MeterReading;
 
 
 @Service
 public class MeterReadingSer {
-	
+	/*
+	 * GET /reading → list all readings/done
+
+       GET /reading/{id} → get one reading/done
+
+       (optional) GET /reading/user/{userId} → list readings by user/done*/
 	
 	private MeterReadingRepo repo;
+	@Autowired
+	private MeterRepo mrepo;
 	
 	public MeterReadingSer(MeterReadingRepo repo) {
 		super();
 		this.repo = repo;
 	}
 
-	public List<MeterReading> getAllMeterReading(){
-		
-		
-		
-		return repo.findAll();
-		
-	}
+	@Transactional
 	public List<MeterAndReading> fetchAllMeterAndReading(){
 		return repo.fetchAllMeterAndReading();
 		}
 	
 	public List<UserMeterReading> getReadingByUserId(Long id){
 		return repo.getAllReadingByID(id);
+	}
+	
+	//get reading by meter id
+	@Transactional
+	public List<ReadingDTO> getById(Long id){
+		Meter meter=mrepo.findById(id).orElseThrow(()->new EntityNotFoundException("meter record is not found to this id :"+id));
+		System.out.println("meter "+meter);
+		List<MeterReading> readings=meter.getMeterReading();
+		List<ReadingDTO> res=readings.stream().map(r->new ReadingDTO(r.getDate(),
+				r.getTime(),
+				r.getKwh(),
+				r.getPf())).toList();
+		
+		return res;
+		
+	}
+	//getting reading by id 
+	public ReadingDTO getReadingById(Long id) {
+		MeterReading r=repo.getById(id);
+		return new ReadingDTO(r.getDate(),r.getTime(),r.getKwh(),r.getPf());
 	}
 	
 

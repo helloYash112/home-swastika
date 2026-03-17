@@ -44,6 +44,7 @@ public class PowerReadingApplication {
 			reading.setTime(LocalTime.now());
 			reading.setKwh(1005);
 			reading.setPf(1);
+			reading.setMeter(m);
 			//adding to each other
 			List<Meter> meters=new ArrayList<>();
 			List<MeterReading> readings=new ArrayList<>();
