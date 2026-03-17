@@ -12,12 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.swastika_company.PowerReading.dto.MeterAndReading;
-import com.swastika_company.PowerReading.dto.MeterDTO;
 import com.swastika_company.PowerReading.dto.UserAndMeter;
 import com.swastika_company.PowerReading.dto.UserDTO;
 import com.swastika_company.PowerReading.dto.UserMeterDTO;
-import com.swastika_company.PowerReading.entity.Meter;
-import com.swastika_company.PowerReading.entity.User;
 import com.swastika_company.PowerReading.service.UserService;
 
 @RestController
@@ -75,34 +72,7 @@ DELETE /api/users/{id} → delete a user*/
 	@PostMapping
 	public ResponseEntity<UserMeterDTO> createUser(@RequestBody UserMeterDTO userDTO) {
 		//creating user
-		System.out.println("creating a user entity....");
-		User user=new User();
-		user.setUserName(userDTO.userName());
-		user.setuserPassword(userDTO.userPassword());
-		if(userDTO.meter() != null) {
-			List<Meter> meters=userDTO.meter().stream().map(dto ->{
-				Meter m=new Meter();
-				m.setMacId(dto.meterMacAddress());
-				m.setMeterName(dto.meterName());
-				m.setMeterNo(dto.meterNumber());
-				m.setUser(user);
-				return m;
-			}).toList();
-			user.setMeter(meters);
-       }
-		User resUser = service.saveUser(user);
-
-		UserMeterDTO resDto = new UserMeterDTO(
-		    resUser.getUserName(),
-		    resUser.getuserPassword(),   // ✅ fixed method name
-		    resUser.getMeter().stream()
-		        .map(m -> new MeterDTO(
-		            m.getMeterName(),
-		            m.getMeterNo(),
-		            m.getMacId()
-		        ))
-		        .toList()   // or .collect(Collectors.toList()) if < Java 16
-		);
+		UserMeterDTO resDto=service.createUser(userDTO);
 		 return ResponseEntity.status(HttpStatus.CREATED).body(resDto);
 		
 	}
