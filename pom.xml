@@ -12,7 +12,7 @@
 	<groupId>com.swastika-company</groupId>
 	<artifactId>PowerReading</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>PowerReading</name>
 	<description>basic project for day-by-day electricity energy consumption</description>
 	<url />
