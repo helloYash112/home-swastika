@@ -3,22 +3,6 @@
   margin: 0;
   padding: 0;
 }
-#app {
-  display: flex;
-  flex-direction: column; 
-  justify-content: center; 
-  align-items: center;    
-  min-height: 100vh;
-  gap: 20px;  
-  background-color: darkgoldenrod; 
-            
-}
-
-#meter{
-  background-color: #0c0c0c;
-  color: blue;
-
-}
 
 .logo {
   height: 6em;
@@ -33,41 +17,6 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-
-#reading{
- width: 600px; /* Increased slightly for two columns */
-  margin: 0 auto;
-  background-color: rgb(221, 153, 17);
-  padding: 40px;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-label {
- font-weight: bold;
-  text-align: right;
-  white-space: nowrap;
-}
-
-input {
- width: 100%;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #555;
-  background-color: #2c2c2c;
-  color: white;
-}
-
-#rbtn{
-  background-color: green;
-  width: 100px;;
-  height: 100px;
-  border-radius: 10%;
-  border-color: rgb(35, 65, 2);
-  color: black;
-}
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
