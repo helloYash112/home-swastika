@@ -1,8 +1,8 @@
-form {
+#signup {
     width: 380px;
     padding: 25px;
 
-    background-color: #0facac;   /* soft & pleasant */
+    background-color: #9c5476;   /* soft & pleasant */
     border: 2px solid burlywood;
     border-radius: 12px;
 
@@ -52,9 +52,9 @@ input:focus {
 }
 
 /* Button */
-button {
-    width: 160px;
-    height: 45px;
+#sign-sub {
+    width: 100%;
+    height: auto;
 
     background-color: orange;
     color: white;

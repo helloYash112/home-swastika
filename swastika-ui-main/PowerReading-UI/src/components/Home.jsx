@@ -1,18 +1,16 @@
 import { Header } from "./Header"
-import { Link } from "react-router-dom"
+
+import { useNavigate } from "react-router-dom"
 
 export function Home(){
+    const navigater=useNavigate();
     return<div id="app"
     >
         <Header></Header>
-        <h1>welcome to home...</h1>
-        <nav>
-            <ul>
-                <li>
-                    <Link to='/form'>create-reading</Link>
-                    <Link to='/Signup'>Signup</Link>
-                </li>
-            </ul>
-        </nav>
+        
+       <button id="rbtn" onClick={()=>navigater('/form')}>Create Reading</button>
+       <button id="rbtn" onClick={()=>navigater('/add/mater')}> Add Meter</button>
+       <button id="rbtn" onClick={()=>navigater('/get/reading')}> Get Readings...</button>
+       
     </div>
 }
