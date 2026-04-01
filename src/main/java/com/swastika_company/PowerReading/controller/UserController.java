@@ -1,7 +1,7 @@
 package com.swastika_company.PowerReading.controller;
 
 import java.util.List;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -69,6 +69,7 @@ DELETE /api/users/{id} → delete a user*/
 	public List<UserDTO> getAllUsers(){
 		return service.getListOfUsers();
 	}
+	@CrossOrigin(origins:"https://powerreading.netlify.app")
 	@PostMapping
 	public ResponseEntity<UserMeterDTO> createUser(@RequestBody UserMeterDTO userDTO) {
 		//creating user
