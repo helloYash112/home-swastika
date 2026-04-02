@@ -16,7 +16,7 @@ import com.swastika_company.PowerReading.dto.UserAndMeter;
 import com.swastika_company.PowerReading.dto.UserDTO;
 import com.swastika_company.PowerReading.dto.UserMeterDTO;
 import com.swastika_company.PowerReading.service.UserService;
-@CrossOrigin(origins = "https://swastika-jpnn--5173--4c73681d.local-corp.webcontainer.io/")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
