@@ -69,7 +69,13 @@ DELETE /api/users/{id} → delete a user*/
 	public List<UserDTO> getAllUsers(){
 		return service.getListOfUsers();
 	}
-	@CrossOrigin(origins:"https://powerreading.netlify.app")
+	@CrossOrigin(origins = "https://powerreading.netlify.app")
+    @PostMapping
+public ResponseEntity<UserMeterDTO> createUser(@RequestBody UserMeterDTO userDTO) {
+    UserMeterDTO resDto = service.createUser(userDTO);
+    return ResponseEntity.status(HttpStatus.CREATED).body(resDto);
+}
+
 	@PostMapping
 	public ResponseEntity<UserMeterDTO> createUser(@RequestBody UserMeterDTO userDTO) {
 		//creating user
