@@ -71,18 +71,11 @@ DELETE /api/users/{id} → delete a user*/
 	}
 
     @PostMapping
-public ResponseEntity<UserMeterDTO> createUser(@RequestBody UserMeterDTO userDTO) {
+    public ResponseEntity<UserMeterDTO> createUser(@RequestBody UserMeterDTO userDTO) {
     UserMeterDTO resDto = service.createUser(userDTO);
     return ResponseEntity.status(HttpStatus.CREATED).body(resDto);
 }
 
-	@PostMapping
-	public ResponseEntity<UserMeterDTO> createUser(@RequestBody UserMeterDTO userDTO) {
-		//creating user
-		UserMeterDTO resDto=service.createUser(userDTO);
-		 return ResponseEntity.status(HttpStatus.CREATED).body(resDto);
-		
-	}
 	
 
 }
