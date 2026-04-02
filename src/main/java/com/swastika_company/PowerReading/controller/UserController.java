@@ -16,7 +16,7 @@ import com.swastika_company.PowerReading.dto.UserAndMeter;
 import com.swastika_company.PowerReading.dto.UserDTO;
 import com.swastika_company.PowerReading.dto.UserMeterDTO;
 import com.swastika_company.PowerReading.service.UserService;
-
+@CrossOrigin(origins = "https://powerreading.netlify.app")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -69,7 +69,7 @@ DELETE /api/users/{id} → delete a user*/
 	public List<UserDTO> getAllUsers(){
 		return service.getListOfUsers();
 	}
-	@CrossOrigin(origins = "https://powerreading.netlify.app")
+
     @PostMapping
 public ResponseEntity<UserMeterDTO> createUser(@RequestBody UserMeterDTO userDTO) {
     UserMeterDTO resDto = service.createUser(userDTO);
