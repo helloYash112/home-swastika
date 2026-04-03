@@ -42,4 +42,9 @@ public interface UserRepo extends JpaRepository<User, Long> {
 	public UserDTO  findByUserId(@Param("id")Long id);
 	@Query("SELECT new com.swastika_company.PowerReading.dto.UserDTO(u.id,u.userName,u.userPassword) from User u")
 	public List<UserDTO> getAllUser();
+	
+	@Query("SELECT u FROM User u WHERE u.userName = :username AND u.userPassword = :password")
+	User findByUsernameAndPassword(@Param("username") String username,
+	                               @Param("password") String password);
+
 }

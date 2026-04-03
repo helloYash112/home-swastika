@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import com.swastika_company.PowerReading.dto.MeterAndReading;
 import com.swastika_company.PowerReading.dto.MeterDTO;
+import com.swastika_company.PowerReading.dto.UserANdMeterDTO;
 import com.swastika_company.PowerReading.dto.UserAndMeter;
 import com.swastika_company.PowerReading.dto.UserDTO;
 import com.swastika_company.PowerReading.dto.UserMeterDTO;
@@ -28,6 +29,9 @@ public class UserService {
 	public User saveUser(User user) {
 		return repo.save(user);
 		
+	}
+	public void deleteByID(Long id) {
+		repo.deleteById(id);
 	}
 	
 	public void deleteUser(User user) {
@@ -125,5 +129,25 @@ public class UserService {
 		return resDto;
 		
 	}
+	public UserANdMeterDTO getByUsernameAndPassword(String userName, String userPassword) {
+	    User u = repo.findByUsernameAndPassword(userName, userPassword);
+
+	    if (u == null) {
+	        
+	        throw new RuntimeException("User not found with given credentials");
+	    }
+
+	    String name = u.getUserName();
+	    
+	    List<MeterDTO> meters = new ArrayList<>();
+	    if (u.getMeter() != null && !u.getMeter().isEmpty()) {
+	        meters = u.getMeter().stream()
+	                  .map(m -> new MeterDTO(m.getMeterName(), m.getMacId(), m.getMeterNo()))
+	                  .toList();
+	    }
+
+	    return new UserANdMeterDTO(name, meters);
+	}
+
 
 }
