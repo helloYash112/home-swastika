@@ -73,7 +73,7 @@ public class MeterController {
 	}
 
 	@PostMapping("/reading/{id}")
-	public ResponseEntity<ReadingByIdDTO> setReadingById(@PathVariable Long id,
+	public ResponseEntity<ReadingByIdDTO> setReadingById(@PathVariable("id") Long id,
 			@RequestBody List<ReadingEntity> readings) {
 		ReadingByIdDTO dto = ser.addReadings(readings, id);
 		return ResponseEntity.ok(dto);
