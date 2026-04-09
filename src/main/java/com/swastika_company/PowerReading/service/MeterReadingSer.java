@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 
 import com.swastika_company.PowerReading.dto.MeterAndReading;
 import com.swastika_company.PowerReading.dto.ReadingDTO;
+import com.swastika_company.PowerReading.dto.ReadingEntity;
 import com.swastika_company.PowerReading.dto.UserMeterReading;
 import com.swastika_company.PowerReading.entity.Meter;
 import com.swastika_company.PowerReading.entity.MeterReading;
@@ -47,11 +48,11 @@ public class MeterReadingSer {
 	
 	//get reading by meter id
 	@Transactional
-	public List<ReadingDTO> getById(Long id){
+	public List<ReadingEntity> getById(Long id){
 		Meter meter=mrepo.findById(id).orElseThrow(()->new EntityNotFoundException("meter record is not found to this id :"+id));
 		System.out.println("meter "+meter);
 		List<MeterReading> readings=meter.getMeterReading();
-		List<ReadingDTO> res=readings.stream().map(r->new ReadingDTO(r.getDate(),
+		List<ReadingEntity> res=readings.stream().map(r->new ReadingEntity(r.getDate(),
 				r.getTime(),
 				r.getKwh(),
 				r.getPf())).toList();
@@ -60,9 +61,9 @@ public class MeterReadingSer {
 		
 	}
 	//getting reading by id 
-	public ReadingDTO getReadingById(Long id) {
+	public ReadingEntity getReadingById(Long id) {
 		MeterReading r=repo.getById(id);
-		return new ReadingDTO(r.getDate(),r.getTime(),r.getKwh(),r.getPf());
+		return new ReadingEntity(r.getDate(),r.getTime(),r.getKwh(),r.getPf());
 	}
 	
 

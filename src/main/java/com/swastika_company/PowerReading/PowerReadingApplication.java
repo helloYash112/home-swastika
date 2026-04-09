@@ -1,28 +1,34 @@
 package com.swastika_company.PowerReading;
-/*
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-*/
+//import java.time.LocalDate;
+//import java.time.LocalTime;
+//import java.util.ArrayList;
+//import java.util.List;
+
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.CommandLineRunner;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-/*
-import com.swastika_company.PowerReading.dto.UserDTO;
-import com.swastika_company.PowerReading.entity.Meter;
-import com.swastika_company.PowerReading.entity.MeterReading;
-import com.swastika_company.PowerReading.entity.User;
-import com.swastika_company.PowerReading.repository.UserRepo;
-import com.swastika_company.PowerReading.service.UserService;
-*/
+
+//import com.swastika_company.PowerReading.dto.SimpleMeterDTO;
+//import com.swastika_company.PowerReading.dto.UserDTO;
+//import com.swastika_company.PowerReading.entity.Meter;
+//import com.swastika_company.PowerReading.entity.MeterReading;
+//import com.swastika_company.PowerReading.entity.User;
+//import com.swastika_company.PowerReading.repository.MeterRepo;
+//import com.swastika_company.PowerReading.repository.UserRepo;
+//import com.swastika_company.PowerReading.service.MeterService;
+//import com.swastika_company.PowerReading.service.UserService;
+
 
 @SpringBootApplication
-public class PowerReadingApplication  {
+public class PowerReadingApplication {
   //@Autowired
- // protected UserRepo ser;
+  //protected UserRepo ser;
+  //@Autowired
+  //protected MeterRepo mser;
+  
 	public static void main(String[] args) {
 		SpringApplication.run(PowerReadingApplication.class, args);
 		
@@ -62,9 +68,10 @@ public class PowerReadingApplication  {
         List<UserDTO> u = ser.getAllUser();
         System.out.println(u);
         
-        System.out.println("checking function getUserbyusernameandpassword");
-        User u1=ser.findByUsernameAndPassword("yash wardhan", "123456789");
-        System.out.println(u1);
+        List<SimpleMeterDTO> m=mser.getUserMeters(1l);
+       System.out.println(m);
+        
+      
 
     }*/
 }

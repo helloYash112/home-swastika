@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import com.swastika_company.PowerReading.dto.CreateMeterDTO;
 import com.swastika_company.PowerReading.dto.MeterDTO;
+import com.swastika_company.PowerReading.dto.ReadingByIdDTO;
 import com.swastika_company.PowerReading.dto.ReadingDTO;
+import com.swastika_company.PowerReading.dto.ReadingEntity;
+import com.swastika_company.PowerReading.dto.SimpleMeterDTO;
 import com.swastika_company.PowerReading.entity.Meter;
 
 import com.swastika_company.PowerReading.entity.MeterReading;
@@ -132,14 +135,14 @@ POST /api/meters/{meterId}/readings → add a reading to a specific meter
     /*
      * public record ReadingDTO(LocalDate date,LocalTime time,double kwh,float pf) {
 } */
-    public List<ReadingDTO> addReadings(List<ReadingDTO> reqReading,Long id){
+    public ReadingByIdDTO addReadings(List<ReadingEntity> reqReading,Long id){
     	
     	List<MeterReading> reading=new ArrayList<>();
     	//getting specific meter or throw exception
     	Meter meter=meterRepo.findById(id).orElseThrow(()-> new EntityNotFoundException("meter record not found id: "+id));
     	//checking is reading is null or not 
     	if(reqReading != null) {
-    		for(ReadingDTO dto : reqReading) {
+    		for(ReadingEntity dto : reqReading) {
     			//saving and responding
     			MeterReading r=new MeterReading();
     			r.setDate(dto.date());
@@ -156,12 +159,20 @@ POST /api/meters/{meterId}/readings → add a reading to a specific meter
     	
     	Meter res=meterRepo.save(meter);
     	//returning back to saved data
-    	List<ReadingDTO> resDto=res.getMeterReading().stream().map(r-> new ReadingDTO(r.getDate(),r.getTime(),
+    	List<ReadingDTO> resDto=res.getMeterReading().stream().map(r-> new ReadingDTO(r.getId(),r.getDate(),r.getTime(),
     			r.getKwh(),r.getPf())).toList();
-    	return resDto;
+    	return new ReadingByIdDTO(res.getMeterId(),resDto);
     	
     }
-    
+    // getting list of meters by user id
+    public List<SimpleMeterDTO> getByUserId(Long id) {
+        // check if user exists
+        if (userRepo.findById(id).isEmpty()) {
+            throw new EntityNotFoundException("User not found for given Id: " + id);
+        }
+        return meterRepo.getUserMeters(id);
+    }
+
     
 
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.swastika_company.PowerReading.dto.MeterAndReading;
 import com.swastika_company.PowerReading.dto.ReadingDTO;
+import com.swastika_company.PowerReading.dto.ReadingEntity;
 import com.swastika_company.PowerReading.dto.UserMeterReading;
 import com.swastika_company.PowerReading.service.MeterReadingSer;
 @RestController
@@ -27,12 +28,12 @@ public class ReadingController {
 		
 	}
 	@GetMapping("/meter/{id}")
-	public List<ReadingDTO> getReadingsById(@PathVariable long id){
+	public List<ReadingEntity> getReadingsById(@PathVariable long id){
 		return service.getById(id);
 	}
 	
 	@GetMapping("/{id}")
-	public ReadingDTO getById(@PathVariable Long id) {
+	public ReadingEntity getById(@PathVariable Long id) {
 		return service.getReadingById(id);
 	}
 	@GetMapping

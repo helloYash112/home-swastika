@@ -1,5 +1,6 @@
 package com.swastika_company.PowerReading.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.swastika_company.PowerReading.dto.CreateMeterDTO;
 import com.swastika_company.PowerReading.dto.MeterDTO;
+import com.swastika_company.PowerReading.dto.ReadingByIdDTO;
 import com.swastika_company.PowerReading.dto.ReadingDTO;
+import com.swastika_company.PowerReading.dto.ReadingEntity;
+import com.swastika_company.PowerReading.dto.SimpleMeterDTO;
 import com.swastika_company.PowerReading.service.MeterService;
 
 import jakarta.validation.Valid;
@@ -42,6 +46,13 @@ public class MeterController {
 		return ser.getMeterById(id);
 
 	}
+	//getting meters by user id
+	@GetMapping("/user/{id}")
+	public ResponseEntity<List<SimpleMeterDTO>> getByUserId(@PathVariable Long id) {
+	    List<SimpleMeterDTO> meters = ser.getByUserId(id);
+	    return ResponseEntity.ok(meters);
+	}
+
 
 	@PostMapping
 	public ResponseEntity<MeterDTO> createMeter(@Valid @RequestBody CreateMeterDTO request) {
@@ -62,9 +73,9 @@ public class MeterController {
 	}
 
 	@PostMapping("/reading/{id}")
-	public ResponseEntity<List<ReadingDTO>> setReadingById(@PathVariable Long id,
-			@RequestBody List<ReadingDTO> readings) {
-		List<ReadingDTO> dto = ser.addReadings(readings, id);
+	public ResponseEntity<ReadingByIdDTO> setReadingById(@PathVariable Long id,
+			@RequestBody List<ReadingEntity> readings) {
+		ReadingByIdDTO dto = ser.addReadings(readings, id);
 		return ResponseEntity.ok(dto);
 
 	}
