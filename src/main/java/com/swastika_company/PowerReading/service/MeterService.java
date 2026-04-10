@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import com.swastika_company.PowerReading.dto.CreateMeterDTO;
+import com.swastika_company.PowerReading.dto.CreateMeterDTO1;
 import com.swastika_company.PowerReading.dto.MeterDTO;
 import com.swastika_company.PowerReading.dto.ReadingByIdDTO;
 import com.swastika_company.PowerReading.dto.ReadingDTO;
@@ -178,7 +179,34 @@ POST /api/meters/{meterId}/readings → add a reading to a specific meter
         }
         return meterRepo.getUserMeters(id);
     }
+    @Transactional
+	public SimpleMeterDTO createMeter(CreateMeterDTO1 request) {
+		// TODO Auto-generated method stub
+    	  if (request == null || request.meter() == null) {
+    	        throw new IllegalArgumentException("Meter data is required");
+    	    }
+    	  //getting user by id
+    	  User user = userRepo.findById(request.userId())
+    		        .orElseThrow(() -> new EntityNotFoundException(
+    		            "User not found with id: " + request.userId()));
+    	  //checking meter exit or not
+    	  boolean exist=meterRepo.existsMeter(request.meter().meterNumber(), request.meter().meterMacAddress());
+    	  if(exist) {
+    		  throw new IllegalArgumentException(
+    		            "Meter already exists with same number or MAC address");
+    	  }
+    	  Meter meter = new Meter();
+    	    meter.setMeterName(request.meter().meterName());
+    	    meter.setMeterNo(request.meter().meterNumber());
+    	    meter.setMacId(request.meter().meterMacAddress());
+    	    
+    	    meter.setUser(user);
+    	    Meter saved = meterRepo.save(meter);
+    	    return new SimpleMeterDTO(
+    	            saved.getMeterId(),
+    	            saved.getMeterName()
+    	        );
+	}
 
-    
 
 }

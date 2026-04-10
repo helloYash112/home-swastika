@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.swastika_company.PowerReading.dto.CreateMeterDTO;
+import com.swastika_company.PowerReading.dto.CreateMeterDTO1;
 import com.swastika_company.PowerReading.dto.MeterDTO;
 import com.swastika_company.PowerReading.dto.ReadingByIdDTO;
 import com.swastika_company.PowerReading.dto.ReadingDTO;
@@ -81,6 +82,14 @@ public class MeterController {
 		ReadingByIdDTO dto = ser.addReadings(readings, id);
 		return ResponseEntity.ok(dto);
 
+	}
+	//creating meter method 2
+	@PostMapping("/meter")
+	public ResponseEntity<SimpleMeterDTO> createMeter(
+	        @RequestBody CreateMeterDTO1 request) {
+
+	    SimpleMeterDTO response = ser.createMeter(request);
+	    return ResponseEntity.ok(response);
 	}
 
 }

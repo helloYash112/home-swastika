@@ -3,8 +3,8 @@ package com.swastika_company.PowerReading;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.List;*/
-/*
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;*/
 
@@ -25,7 +25,7 @@ import com.swastika_company.PowerReading.service.UserService;*/
 
 
 @SpringBootApplication
-public class PowerReadingApplication {
+public class PowerReadingApplication  {
 	/*
   @Autowired
   protected UserRepo ser;
@@ -33,8 +33,8 @@ public class PowerReadingApplication {
   protected MeterRepo mser;
   @Autowired
   protected MeterService meterSer;
-  */
   
+  */
 	public static void main(String[] args) {
 		SpringApplication.run(PowerReadingApplication.class, args);
 		

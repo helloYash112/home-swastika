@@ -17,6 +17,20 @@ public interface MeterRepo extends JpaRepository<Meter, Long> {
 	@Query("SELECT new com.swastika_company.PowerReading.dto.SimpleMeterDTO(m.meterId, m.meterName) " +
 		       "FROM Meter m WHERE m.user.id = :userId")
 		List<SimpleMeterDTO> getUserMeters(@Param("userId") Long userId);
+	
+	@Query("""
+		    SELECT CASE 
+		        WHEN COUNT(m) > 0 THEN true 
+		        ELSE false 
+		    END
+		    FROM Meter m
+		    WHERE m.meterNumber = :meterNumber 
+		       OR m.machineId = :meterMacAddress
+		""")
+		boolean existsMeter(
+		    @Param("meterNumber") String meterNumber,
+		    @Param("meterMacAddress") String meterMacAddress
+		);
 
 
 }
