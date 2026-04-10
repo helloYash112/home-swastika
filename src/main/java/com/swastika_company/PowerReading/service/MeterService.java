@@ -23,6 +23,7 @@ import com.swastika_company.PowerReading.entity.Meter;
 import com.swastika_company.PowerReading.entity.MeterReading;
 
 import com.swastika_company.PowerReading.entity.User;
+import com.swastika_company.PowerReading.repository.MeterReadingRepo;
 import com.swastika_company.PowerReading.repository.MeterRepo;
 import com.swastika_company.PowerReading.repository.UserRepo;
 
@@ -35,11 +36,13 @@ import jakarta.transaction.Transactional;
 public class MeterService {
 
 
-
+    @Autowired
 	private MeterRepo meterRepo;
 
 	@Autowired
 	private UserRepo userRepo;
+	@Autowired 
+	private MeterReadingRepo meterReadingRepo;
 
 	public MeterService(MeterRepo meterRepo) {
 		super();
@@ -135,34 +138,37 @@ POST /api/meters/{meterId}/readings → add a reading to a specific meter
     /*
      * public record ReadingDTO(LocalDate date,LocalTime time,double kwh,float pf) {
 } */
-    public ReadingByIdDTO addReadings(List<ReadingEntity> reqReading,Long id){
-    	
-    	List<MeterReading> reading=new ArrayList<>();
-    	//getting specific meter or throw exception
-    	Meter meter=meterRepo.findById(id).orElseThrow(()-> new EntityNotFoundException("meter record not found id: "+id));
-    	//checking is reading is null or not 
-    	if(reqReading != null) {
-    		for(ReadingEntity dto : reqReading) {
-    			//saving and responding
-    			MeterReading r=new MeterReading();
-    			r.setDate(dto.date());
-    			r.setKwh(dto.kwh());
-    			r.setPf(dto.pf());
-    			r.setTime(dto.time());
-    			r.setMeter(meter);
-    			reading.add(r);
-    		}
-    		
-    	}
-    	//reading adding to meter
-    	meter.setMeterReading(reading);
-    	
-    	Meter res=meterRepo.save(meter);
-    	//returning back to saved data
-    	List<ReadingDTO> resDto=res.getMeterReading().stream().map(r-> new ReadingDTO(r.getId(),r.getDate(),r.getTime(),
-    			r.getKwh(),r.getPf())).toList();
-    	return new ReadingByIdDTO(res.getMeterId(),resDto);
-    	
+    
+    @Transactional
+    public ReadingByIdDTO addReadings(ReadingEntity reqReading, Long id) {
+
+        Meter meter = meterRepo.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("meter record not found id: " + id));
+
+        if (reqReading == null) {
+            throw new IllegalArgumentException("Reading cannot be null");
+        }
+
+        MeterReading r = new MeterReading();
+        r.setDate(reqReading.date());
+        r.setKwh(reqReading.kwh());
+        r.setPf(reqReading.pf());
+        r.setTime(reqReading.time());
+
+        // 🔥 MOST IMPORTANT LINE
+        r.setMeter(meter);
+
+        MeterReading savedReading = meterReadingRepo.save(r);
+
+        ReadingDTO resDto = new ReadingDTO(
+            savedReading.getId(),
+            savedReading.getDate(),
+            savedReading.getTime(),
+            savedReading.getKwh(),
+            savedReading.getPf()
+        );
+
+        return new ReadingByIdDTO(meter.getMeterId(), List.of(resDto));
     }
     // getting list of meters by user id
     public List<SimpleMeterDTO> getByUserId(Long id) {

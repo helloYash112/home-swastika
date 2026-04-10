@@ -1,33 +1,39 @@
 package com.swastika_company.PowerReading;
-
-//import java.time.LocalDate;
-//import java.time.LocalTime;
-//import java.util.ArrayList;
-//import java.util.List;
-
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.CommandLineRunner;
+/*
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;*/
+/*
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;*/
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-//import com.swastika_company.PowerReading.dto.SimpleMeterDTO;
-//import com.swastika_company.PowerReading.dto.UserDTO;
-//import com.swastika_company.PowerReading.entity.Meter;
-//import com.swastika_company.PowerReading.entity.MeterReading;
-//import com.swastika_company.PowerReading.entity.User;
-//import com.swastika_company.PowerReading.repository.MeterRepo;
-//import com.swastika_company.PowerReading.repository.UserRepo;
-//import com.swastika_company.PowerReading.service.MeterService;
-//import com.swastika_company.PowerReading.service.UserService;
+/*
+import com.swastika_company.PowerReading.dto.ReadingByIdDTO;
+import com.swastika_company.PowerReading.dto.ReadingEntity;
+import com.swastika_company.PowerReading.dto.SimpleMeterDTO;
+import com.swastika_company.PowerReading.dto.UserDTO;
+import com.swastika_company.PowerReading.entity.Meter;
+import com.swastika_company.PowerReading.entity.MeterReading;
+import com.swastika_company.PowerReading.entity.User;
+import com.swastika_company.PowerReading.repository.MeterRepo;
+import com.swastika_company.PowerReading.repository.UserRepo;
+import com.swastika_company.PowerReading.service.MeterService;
+import com.swastika_company.PowerReading.service.UserService;*/
 
 
 @SpringBootApplication
 public class PowerReadingApplication {
-  //@Autowired
-  //protected UserRepo ser;
-  //@Autowired
-  //protected MeterRepo mser;
+	/*
+  @Autowired
+  protected UserRepo ser;
+  @Autowired
+  protected MeterRepo mser;
+  @Autowired
+  protected MeterService meterSer;
+  */
   
 	public static void main(String[] args) {
 		SpringApplication.run(PowerReadingApplication.class, args);
@@ -70,6 +76,10 @@ public class PowerReadingApplication {
         
         List<SimpleMeterDTO> m=mser.getUserMeters(1l);
        System.out.println(m);
+      
+       ReadingEntity r=new ReadingEntity(LocalDate.now(),LocalTime.now(),1001d,1.0f);
+       ReadingByIdDTO res=meterSer.addReadings(r, 1l);
+       System.out.println(res);
         
       
 
