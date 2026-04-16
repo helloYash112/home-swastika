@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import com.swastika_company.PowerReading.dto.CreateMeterDTO;
 import com.swastika_company.PowerReading.dto.CreateMeterDTO1;
 import com.swastika_company.PowerReading.dto.MeterDTO;
+import com.swastika_company.PowerReading.dto.MeterResDTO;
 import com.swastika_company.PowerReading.dto.ReadingByIdDTO;
 import com.swastika_company.PowerReading.dto.ReadingDTO;
 import com.swastika_company.PowerReading.dto.ReadingEntity;
@@ -180,7 +181,7 @@ POST /api/meters/{meterId}/readings → add a reading to a specific meter
         return meterRepo.getUserMeters(id);
     }
     @Transactional
-	public SimpleMeterDTO createMeter(CreateMeterDTO1 request) {
+	public MeterResDTO createMeter(CreateMeterDTO1 request) {
 		// TODO Auto-generated method stub
     	  if (request == null || request.meter() == null) {
     	        throw new IllegalArgumentException("Meter data is required");
@@ -202,9 +203,10 @@ POST /api/meters/{meterId}/readings → add a reading to a specific meter
     	    
     	    meter.setUser(user);
     	    Meter saved = meterRepo.save(meter);
-    	    return new SimpleMeterDTO(
+    	    return new MeterResDTO(
     	            saved.getMeterId(),
-    	            saved.getMeterName()
+    	            saved.getMeterName(),
+    	            List.of()
     	        );
 	}
 

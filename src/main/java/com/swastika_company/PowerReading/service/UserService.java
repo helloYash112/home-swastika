@@ -1,17 +1,24 @@
 package com.swastika_company.PowerReading.service;
 
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import com.swastika_company.PowerReading.dto.MeterAndReading;
 import com.swastika_company.PowerReading.dto.MeterDTO;
+import com.swastika_company.PowerReading.dto.MeterResDTO;
+import com.swastika_company.PowerReading.dto.ReadingDTO;
 import com.swastika_company.PowerReading.dto.UserANdMeterDTO;
 import com.swastika_company.PowerReading.dto.UserAndMeter;
 import com.swastika_company.PowerReading.dto.UserDTO;
+import com.swastika_company.PowerReading.dto.UserDTO1;
 import com.swastika_company.PowerReading.dto.UserMeterDTO;
+import com.swastika_company.PowerReading.dto.UserResDTO;
 import com.swastika_company.PowerReading.entity.Meter;
 import com.swastika_company.PowerReading.entity.MeterReading;
 import com.swastika_company.PowerReading.entity.User;
@@ -97,39 +104,25 @@ public class UserService {
 		return repo.getAllUser();
 	}
 	
-	public UserMeterDTO createUser(UserMeterDTO userDTO) {
+	public UserResDTO createUser(UserDTO1 userDTO) {
+		String userName=userDTO.userName();
+		String userPassword=userDTO.userPassword();
+		//checking is user exits or not
+		boolean userExists=repo.existsByEmailAndPassword(userName, userPassword);
+		if (userExists) {
+			throw new DuplicateKeyException("User with email " + userName+"or"+userPassword + " already exists");
+		}
 		User user=new User();
 		user.setUserName(userDTO.userName());
 		user.setuserPassword(userDTO.userPassword());
-		if(userDTO.meter() != null) {
-			List<Meter> meters=userDTO.meter().stream().map(dto ->{
-				Meter m=new Meter();
-				m.setMacId(dto.meterMacAddress());
-				m.setMeterName(dto.meterName());
-				m.setMeterNo(dto.meterNumber());
-				m.setUser(user);
-				return m;
-			}).toList();
-			user.setMeter(meters);
-       }
-		User resUser = repo.save(user);
-
-		UserMeterDTO resDto = new UserMeterDTO(
-		    resUser.getUserName(),
-		    resUser.getuserPassword(),   // ✅ fixed method name
-		    resUser.getMeter().stream()
-		        .map(m -> new MeterDTO(
-		            m.getMeterName(),
-		            m.getMeterNo(),
-		            m.getMacId()
-		        ))
-		        .toList()   // or .collect(Collectors.toList()) if < Java 16
-		);
 		
-		return resDto;
+		User resUser = repo.save(user);
+		UserResDTO res=new UserResDTO(resUser.getId(),resUser.getUserName(),List.of());
+
+		return res;
 		
 	}
-	public UserANdMeterDTO getByUsernameAndPassword(String userName, String userPassword) {
+	public UserResDTO getByUsernameAndPassword(String userName, String userPassword) {
 	    User u = repo.findByUsernameAndPassword(userName, userPassword);
 
 	    if (u == null) {
@@ -138,15 +131,27 @@ public class UserService {
 	    }
 
 	    String name = u.getUserName();
+	    /*public record ReadingDTO(Long rid,LocalDate date,LocalTime time,double kwh,float pf) {
+} */
 	    
-	    List<MeterDTO> meters = new ArrayList<>();
+	    List<MeterResDTO> meters = new ArrayList<>();
 	    if (u.getMeter() != null && !u.getMeter().isEmpty()) {
-	        meters = u.getMeter().stream()
-	                  .map(m -> new MeterDTO(m.getMeterName(), m.getMacId(), m.getMeterNo()))
-	                  .toList();
-	    }
+	       meters=u.getMeter().stream().map(meter ->{
+	    	   MeterResDTO m;
+	    	   List<ReadingDTO> readings=new ArrayList<>();
+	    	   if(meter.getMeterReading()!=null) {
+	    		   readings=meter.getMeterReading().stream().map(reading ->new ReadingDTO(reading.getId(),reading.getDate(),reading.getTime(),reading.getKwh(),reading.getPf())).toList();
+	    		   
+	    	   }
+	    	   m=new MeterResDTO(meter.getMeterId(),meter.getMeterName(),readings);
+	    	   return m;
+	    	   
+	       }
+	    	   ).toList();
+	       }
+	    
 
-	    return new UserANdMeterDTO(name, meters);
+	    return new UserResDTO(u.getId(),u.getUserName(),meters);
 	}
 
 

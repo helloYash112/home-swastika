@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.swastika_company.PowerReading.dto.CreateMeterDTO;
 import com.swastika_company.PowerReading.dto.CreateMeterDTO1;
 import com.swastika_company.PowerReading.dto.MeterDTO;
+import com.swastika_company.PowerReading.dto.MeterResDTO;
 import com.swastika_company.PowerReading.dto.ReadingByIdDTO;
 import com.swastika_company.PowerReading.dto.ReadingDTO;
 import com.swastika_company.PowerReading.dto.ReadingEntity;
@@ -26,8 +28,10 @@ import com.swastika_company.PowerReading.service.MeterService;
 
 import jakarta.validation.Valid;
 
+
 @RestController
 @RequestMapping("/api/meters")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class MeterController {
 	private MeterService ser;
 
@@ -85,10 +89,10 @@ public class MeterController {
 	}
 	//creating meter method 2
 	@PostMapping("/meter")
-	public ResponseEntity<SimpleMeterDTO> createMeter(
+	public ResponseEntity<MeterResDTO> createMeter(
 	        @RequestBody CreateMeterDTO1 request) {
 
-	    SimpleMeterDTO response = ser.createMeter(request);
+	    MeterResDTO response = ser.createMeter(request);
 	    return ResponseEntity.ok(response);
 	}
 

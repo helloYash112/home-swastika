@@ -17,11 +17,14 @@ import com.swastika_company.PowerReading.dto.MeterAndReading;
 import com.swastika_company.PowerReading.dto.UserANdMeterDTO;
 import com.swastika_company.PowerReading.dto.UserAndMeter;
 import com.swastika_company.PowerReading.dto.UserDTO;
+import com.swastika_company.PowerReading.dto.UserDTO1;
 import com.swastika_company.PowerReading.dto.UserMeterDTO;
+import com.swastika_company.PowerReading.dto.UserResDTO;
 import com.swastika_company.PowerReading.service.UserService;
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
 	/*
 	 * POST /api/users → create a new user
@@ -74,8 +77,8 @@ DELETE /api/users/{id} → delete a user*/
 	}
 
     @PostMapping
-    public ResponseEntity<UserMeterDTO> createUser(@RequestBody UserMeterDTO userDTO) {
-    UserMeterDTO resDto = service.createUser(userDTO);
+    public ResponseEntity<UserResDTO> createUser(@RequestBody UserDTO1 userDTO) {
+    UserResDTO resDto = service.createUser(userDTO);
     return ResponseEntity.status(HttpStatus.CREATED).body(resDto);
 }
     @DeleteMapping("/{id}")
@@ -85,11 +88,11 @@ DELETE /api/users/{id} → delete a user*/
     	
     }
     @GetMapping("/login")
-    public ResponseEntity<UserANdMeterDTO> getUserByCredentials(
+    public ResponseEntity<UserResDTO> getUserByCredentials(
             @RequestParam String userName,
             @RequestParam String userPassword) {
 
-        UserANdMeterDTO dto = service.getByUsernameAndPassword(userName, userPassword);
+        UserResDTO dto = service.getByUsernameAndPassword(userName, userPassword);
 
         if (dto == null) {
             return ResponseEntity.notFound().build();

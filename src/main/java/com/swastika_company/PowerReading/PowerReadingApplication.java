@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;*/
-
+import org.springframework.boot.CommandLineRunner;
+*/
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 /*
@@ -21,11 +21,12 @@ import com.swastika_company.PowerReading.entity.User;
 import com.swastika_company.PowerReading.repository.MeterRepo;
 import com.swastika_company.PowerReading.repository.UserRepo;
 import com.swastika_company.PowerReading.service.MeterService;
-import com.swastika_company.PowerReading.service.UserService;*/
+import com.swastika_company.PowerReading.service.UserService;
+*/
 
 
 @SpringBootApplication
-public class PowerReadingApplication  {
+public class PowerReadingApplication{
 	/*
   @Autowired
   protected UserRepo ser;
@@ -33,14 +34,15 @@ public class PowerReadingApplication  {
   protected MeterRepo mser;
   @Autowired
   protected MeterService meterSer;
-  
   */
+  
 	public static void main(String[] args) {
 		SpringApplication.run(PowerReadingApplication.class, args);
 		
 
 	}
 	/*
+	
 	@Override
     public void run(String... args) throws Exception {
         // Your logic here
@@ -83,5 +85,6 @@ public class PowerReadingApplication  {
         
       
 
-    }*/
+    }
+    */
 }
