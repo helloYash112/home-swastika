@@ -1,6 +1,7 @@
 package com.swastika_company.PowerReading.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.swastika_company.PowerReading.dto.SimpleMeterDTO;
 import com.swastika_company.PowerReading.entity.Meter;
+import com.swastika_company.PowerReading.entity.MeterReading;
 
 @Repository
 public interface MeterRepo extends JpaRepository<Meter, Long> {
@@ -31,6 +33,8 @@ public interface MeterRepo extends JpaRepository<Meter, Long> {
 		    @Param("meterNumber") String meterNumber,
 		    @Param("meterMacAddress") String meterMacAddress
 		);
+	
+	
 
 
 }

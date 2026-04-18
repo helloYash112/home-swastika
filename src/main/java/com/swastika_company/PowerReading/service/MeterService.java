@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -150,6 +151,22 @@ POST /api/meters/{meterId}/readings → add a reading to a specific meter
         if (reqReading == null) {
             throw new IllegalArgumentException("Reading cannot be null");
         }
+        Optional<MeterReading> lastReading =meterReadingRepo.findTopByMeterOrderByDateDescTimeDescIdDesc(meter);
+
+        	if (lastReading.isPresent()) {
+        	    MeterReading r = lastReading.get();
+
+        	    if (reqReading.date().equals(r.getDate()) &&
+        	        reqReading.time().equals(r.getTime())) {
+        	        throw new RuntimeException("Duplicate timestamp not allowed");
+        	    }
+
+        	    if (reqReading.kwh() <= r.getKwh()) {
+        	        throw new RuntimeException(
+        	            "KWH must be greater than previous value: " + r.getKwh()
+        	        );
+        	    }
+        	}
 
         MeterReading r = new MeterReading();
         r.setDate(reqReading.date());

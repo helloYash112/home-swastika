@@ -34,8 +34,8 @@ public class PowerReadingApplication{
   protected MeterRepo mser;
   @Autowired
   protected MeterService meterSer;
-  */
   
+  */
 	public static void main(String[] args) {
 		SpringApplication.run(PowerReadingApplication.class, args);
 		
@@ -79,12 +79,12 @@ public class PowerReadingApplication{
         List<SimpleMeterDTO> m=mser.getUserMeters(1l);
        System.out.println(m);
       
-       ReadingEntity r=new ReadingEntity(LocalDate.now(),LocalTime.now(),1001d,1.0f);
+       ReadingEntity r=new ReadingEntity(LocalDate.now(),LocalTime.now(),1002d,1.0f);
        ReadingByIdDTO res=meterSer.addReadings(r, 1l);
        System.out.println(res);
         
       
 
-    }
-    */
+    }*/
+    
 }

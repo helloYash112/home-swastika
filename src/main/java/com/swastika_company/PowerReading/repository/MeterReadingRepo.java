@@ -1,12 +1,14 @@
 package com.swastika_company.PowerReading.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.swastika_company.PowerReading.entity.Meter;
 import com.swastika_company.PowerReading.entity.MeterReading;
 import com.swastika_company.PowerReading.dto.MeterAndReading;
 import com.swastika_company.PowerReading.dto.UserMeterReading;
@@ -26,5 +28,6 @@ public interface MeterReadingRepo extends JpaRepository<MeterReading, Long> {
 		       "JOIN m.user u " +
 		       "WHERE u.id = :id")
 		List<UserMeterReading> getAllReadingByID(@Param("id") Long id);
+	Optional<MeterReading> findTopByMeterOrderByDateDescTimeDescIdDesc(Meter meter);
 
 }
