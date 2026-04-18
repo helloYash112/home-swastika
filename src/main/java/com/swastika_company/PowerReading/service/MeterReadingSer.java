@@ -65,6 +65,10 @@ public class MeterReadingSer {
 		MeterReading r=repo.getById(id);
 		return new ReadingEntity(r.getDate(),r.getTime(),r.getKwh(),r.getPf());
 	}
-	
+	//delete the reading by id
+	public void deleteById(Long id) {
+		 repo.deleteById(id);
+		 return;
+	}
 
 }

@@ -2,8 +2,11 @@ package com.swastika_company.PowerReading.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,6 +44,9 @@ public class ReadingController {
 		return service.fetchAllMeterAndReading();
 	}
 	
-	
-
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> removeById(@PathVariable Long id) {
+	    service.deleteById(id);
+	    return ResponseEntity.noContent().build();
+	}
 }
