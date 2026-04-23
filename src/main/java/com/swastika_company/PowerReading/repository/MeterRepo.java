@@ -1,5 +1,6 @@
 package com.swastika_company.PowerReading.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,8 +34,7 @@ public interface MeterRepo extends JpaRepository<Meter, Long> {
 		    @Param("meterNumber") String meterNumber,
 		    @Param("meterMacAddress") String meterMacAddress
 		);
-	
-	
+
 
 
 }

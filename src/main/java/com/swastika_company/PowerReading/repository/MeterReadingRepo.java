@@ -1,5 +1,6 @@
 package com.swastika_company.PowerReading.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,5 +30,15 @@ public interface MeterReadingRepo extends JpaRepository<MeterReading, Long> {
 		       "WHERE u.id = :id")
 		List<UserMeterReading> getAllReadingByID(@Param("id") Long id);
 	Optional<MeterReading> findTopByMeterOrderByDateDescTimeDescIdDesc(Meter meter);
+	@Query("SELECT r FROM MeterReading  r " +
+	           "WHERE r.meter.id = :meterId " +
+		       "AND r.date >= :startDate " +
+		       "AND r.date < :endDate")
+		List<MeterReading> findCurrentMonthData(
+				@Param("meterId") Long meterId,
+		        @Param("startDate") LocalDate startDate,
+		        @Param("endDate") LocalDate endDate);
+	
+	
 
 }

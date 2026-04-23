@@ -1,5 +1,6 @@
 package com.swastika_company.PowerReading.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,5 +71,24 @@ public class MeterReadingSer {
 		 repo.deleteById(id);
 		 return;
 	}
+	 public List<ReadingDTO> getData(Long meterId,LocalDate startDate, LocalDate endDate) {
+		 // 1. Check if meter exists
+		    Meter meter = mrepo.findById(meterId)
+		            .orElseThrow(() -> new RuntimeException("Meter not found with id: " + meterId));
+
+		    //  2. Default date handling
+		    if (startDate == null && endDate == null) {
+		        LocalDate now = LocalDate.now();
+		        startDate = now.withDayOfMonth(1);
+		        endDate = startDate.plusMonths(1);
+		    } 
+		    else if (startDate != null && endDate == null) {
+		        endDate = startDate.plusMonths(1);
+		    }
+	        List<MeterReading> readings=repo.findCurrentMonthData(meterId,startDate, endDate);
+	        
+
+	        return  readings.stream().map(r->new ReadingDTO(r.getId(),r.getDate(),r.getTime(),r.getKwh(),r.getPf())).toList();
+	    }
 
 }

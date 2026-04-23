@@ -1,13 +1,16 @@
 package com.swastika_company.PowerReading.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.swastika_company.PowerReading.dto.MeterAndReading;
@@ -48,5 +51,13 @@ public class ReadingController {
 	public ResponseEntity<Void> removeById(@PathVariable Long id) {
 	    service.deleteById(id);
 	    return ResponseEntity.noContent().build();
+	}
+	@GetMapping("/meter/{meterId}/data")
+	public List<ReadingDTO> getMeterData(
+	        @PathVariable Long meterId,
+	        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+	        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+
+	    return service.getData(meterId, startDate, endDate);
 	}
 }

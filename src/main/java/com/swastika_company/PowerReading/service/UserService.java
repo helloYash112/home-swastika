@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import com.swastika_company.PowerReading.dto.MeterAndReading;
@@ -27,6 +28,8 @@ import com.swastika_company.PowerReading.repository.UserRepo;
 @Service
 public class UserService {
 	protected UserRepo repo;
+	@Autowired
+	protected MeterReadingSer mrs;
 
 	public UserService(UserRepo repo) {
 		super();
@@ -129,23 +132,17 @@ public class UserService {
 	        
 	        throw new RuntimeException("User not found with given credentials");
 	    }
-
-	    String name = u.getUserName();
-	    /*public record ReadingDTO(Long rid,LocalDate date,LocalTime time,double kwh,float pf) {
-} */
+       /*public record ReadingDTO(Long rid,LocalDate date,LocalTime time,double kwh,float pf) {
+}      */
 	    
 	    List<MeterResDTO> meters = new ArrayList<>();
 	    if (u.getMeter() != null && !u.getMeter().isEmpty()) {
 	       meters=u.getMeter().stream().map(meter ->{
-	    	   MeterResDTO m;
-	    	   List<ReadingDTO> readings=new ArrayList<>();
-	    	   if(meter.getMeterReading()!=null) {
-	    		   readings=meter.getMeterReading().stream().map(reading ->new ReadingDTO(reading.getId(),reading.getDate(),reading.getTime(),reading.getKwh(),reading.getPf())).toList();
-	    		   
-	    	   }
-	    	   m=new MeterResDTO(meter.getMeterId(),meter.getMeterName(),readings);
-	    	   return m;
-	    	   
+	    	   //getting list of current month reading 
+	    	   List<ReadingDTO> readings=mrs.getData(meter.getMeterId(), null, null);
+	    	 
+	    	   return new MeterResDTO(meter.getMeterId(),meter.getMeterName(),readings);
+	    	 
 	       }
 	    	   ).toList();
 	       }

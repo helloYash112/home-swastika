@@ -226,6 +226,8 @@ POST /api/meters/{meterId}/readings → add a reading to a specific meter
     	            List.of()
     	        );
 	}
+    //adding function to get reading monthly base
+   
 
 
 }
