@@ -20,6 +20,7 @@ import com.swastika_company.PowerReading.dto.UserMeterReading;
 import com.swastika_company.PowerReading.service.MeterReadingSer;
 @RestController
 @RequestMapping("/api/reading")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ReadingController {
 	private MeterReadingSer service;
 
